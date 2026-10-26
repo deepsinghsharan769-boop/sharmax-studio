@@ -5,18 +5,57 @@
 <meta name="theme-color" content="#090d16"><title>SHARMAX STUDIO</title>
 <style>
 ```css
-/* SHARMAX STUDIO — Premium Dark Editing Workspace */
+```css
+/* SHARMAX STUDIO — Blue & Light Blue Theme */
 :root {
-  color-scheme: light blue;
-  --bg: #07111f;
-  --panel: #0d1b2d;
-  --panel2: #12243a;
-  --border: #203b59;
-  --text: #f0f7ff;
-  --muted: #9bb2cc;
+  color-scheme: dark;
+  --bg: #071426;
+  --panel: #0d2038;
+  --panel2: #132d4d;
+  --border: #285078;
+  --text: #f0f8ff;
+  --muted: #b3cde8;
   --accent: #38bdf8;
-  --accent2: #0878d1;
+  --accent2: #60a5fa;
 }
+
+body {
+  background: #071426 !important;
+  color: #f0f8ff !important;
+}
+
+header, .panel, .playrow {
+  background: #0d2038 !important;
+  border-color: #285078 !important;
+}
+
+button {
+  background: #132d4d !important;
+  color: #f0f8ff !important;
+  border: 1px solid #38bdf8 !important;
+}
+
+button:hover {
+  background: #1d4770 !important;
+  border-color: #7dd3fc !important;
+}
+
+.brand span, .status, .trackname {
+  color: #7dd3fc !important;
+}
+
+.primary, .playrow button:first-child {
+  background: linear-gradient(135deg, #0878d1, #38bdf8) !important;
+  color: white !important;
+}
+
+input, textarea, select {
+  background: #0b1b30 !important;
+  color: #f0f8ff !important;
+  border-color: #38bdf8 !important;
+}
+```
+
 * {
   box-sizing: border-box;
 }
