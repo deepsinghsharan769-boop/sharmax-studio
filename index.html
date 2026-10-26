@@ -5,6 +5,45 @@
 <meta name="theme-color" content="#090d16"><title>SHARMAX STUDIO</title>
 <style>
 :root{color-scheme:dark;--bg:#090d16;--panel:#111827;--panel2:#0c1320;--line:#273449;--text:#eef4ff;--muted:#93a4bc;--accent:#7c5cff;--cyan:#29d3c2}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17213b 0,#090d16 55%);font:14px/1.45 system-ui,Segoe UI,Arial;color:var(--text)}button,input,textarea{font:inherit}button{cursor:pointer;border:1px solid #33425c;background:#1b2740;color:var(--text);border-radius:9px;padding:9px 12px}button.primary{background:linear-gradient(135deg,#7358ff,#4b80ff);border:0;font-weight:700}button:hover{filter:brightness(1.15)}header{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--line);background:#0a101bea;position:sticky;top:0;z-index:3}.brand{font-size:18px;font-weight:850;letter-spacing:1.5px}.brand span{color:var(--cyan)}.pill{font-size:11px;color:#b8c7dd;border:1px solid #35435b;border-radius:20px;padding:5px 8px}.layout{display:grid;grid-template-columns:220px minmax(260px,1fr) 300px;gap:12px;padding:12px;max-width:1600px;margin:auto}.panel{background:linear-gradient(180deg,#131c2c,#0e1522);border:1px solid var(--line);border-radius:13px;overflow:hidden;min-width:0}.panel h2{font-size:12px;text-transform:uppercase;letter-spacing:1.1px;color:#a9bbd5;margin:0;padding:13px;border-bottom:1px solid var(--line)}.inside{padding:13px}.upload{border:1px dashed #526583;border-radius:12px;padding:18px 10px;text-align:center;background:#101a2a}.upload strong{display:block;margin:5px}.muted{color:var(--muted);font-size:12px}.asset{padding:9px;margin-top:8px;background:#0b1320;border:1px solid #26354b;border-radius:8px;overflow-wrap:anywhere}.center{display:flex;flex-direction:column;gap:12px}.viewer{aspect-ratio:16/9;background:radial-gradient(circle at center,#18243a,#05080e 72%);display:flex;align-items:center;justify-content:center;position:relative}.viewer video{max-width:100%;max-height:100%;display:none}.placeholder{text-align:center;padding:20px}.playrow{display:flex;justify-content:center;gap:8px;padding:10px;border-top:1px solid var(--line)}.timeline-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.track{display:grid;grid-template-columns:80px 1fr;min-height:45px;border-top:1px solid #25334a}.trackname{padding:12px 8px;color:#a8bad4;font-size:11px;border-right:1px solid #25334a}.trackbody{padding:6px;background:repeating-linear-gradient(90deg,#0c1421 0,#0c1421 49px,#182238 50px)}.clip{border-radius:6px;padding:7px 9px;background:linear-gradient(90deg,#5742c6,#297c9b);font-size:11px;min-height:30px;overflow:hidden}.clip.audio{background:linear-gradient(90deg,#176b62,#279b81)}.chatlog{min-height:180px;max-height:320px;overflow:auto;display:flex;flex-direction:column;gap:9px}.bubble{padding:10px;border-radius:10px;background:#0b1422;border:1px solid #283750;font-size:13px;white-space:pre-wrap}.bubble.user{background:#201a42;border-color:#4b3b88}.chatform{display:flex;gap:7px;margin-top:10px}.chatform textarea{min-width:0;flex:1;resize:vertical;min-height:42px;max-height:100px;background:#080e18;border:1px solid #35445e;border-radius:9px;padding:10px;color:white}.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.tool{font-size:12px;text-align:left}.note{padding:10px;border-radius:9px;background:#182236;color:#b7c6dc;font-size:11px;margin-top:12px}.status{color:var(--cyan);font-size:11px}.bottom{padding:0 14px 18px;max-width:1600px;margin:auto;color:#8294af;font-size:11px}@media(max-width:1050px){.layout{grid-template-columns:190px minmax(0,1fr)}.right{grid-column:1/-1}.right .inside{display:grid;grid-template-columns:1fr 1fr;gap:12px}.right h2{grid-column:1/-1}}@media(max-width:650px){header{padding:0 12px}.layout{display:flex;flex-direction:column;padding:8px}.layout>.panel,.center{width:100%}.left{order:2}.center{order:1}.right{order:3}.right .inside{display:block}.brand{font-size:15px}.pill{display:none}.panel h2{padding:11px}.inside{padding:10px}.viewer{min-height:190px}}
+/* SHARMAX Cinematic Effects */
+.effects-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+}
+
+.effect-control {
+background: #0b1320;
+border: 1px solid #26354b;
+border-radius: 9px;
+padding: 10px;
+}
+
+.effect-control label {
+display: flex;
+justify-content: space-between;
+gap: 8px;
+margin-bottom: 7px;
+}
+
+.effect-control input[type="range"] {
+width: 100%;
+accent-color: #7c5cff;
+}
+
+.effect-toggle {
+display: flex;
+align-items: center;
+gap: 8px;
+margin: 10px 0;
+}
+
+@media (max-width: 650px) {
+.effects-grid {
+grid-template-columns: 1fr;
+}
+}
+
 </style>
 <link rel="manifest" href="./manifest.json">
 </head>
@@ -13,7 +52,36 @@
 <header><div class="brand">SHARMAX <span>STUDIO</span></div><div style="display:flex;gap:8px;align-items:center"><span class="pill">MOBILE EDITOR PROTOTYPE</span><button id="saveProject">💾 Save project</button><button id="openProject">📂 Open saved</button><button id="newProject">＋ New project</button></div></header>
 <main class="layout">
 <section class="panel left"><h2>Project media</h2><div class="inside"><label class="upload" for="mediaInput" style="display:block;cursor:pointer"><div style="font-size:26px">＋</div><strong>Import video / audio</strong><span class="muted">Choose a file from your device</span></label><input id="mediaInput" type="file" accept="video/*,audio/*,image/*" multiple hidden><div id="assets"><div class="asset muted">No media imported yet.</div></div><div class="note">Tip: use a short clip for testing on a low-memory phone or laptop.</div></div></section>
-<section class="center"><section class="panel"><h2>Composition preview <span class="status" id="previewStatus" style="float:right">READY</span></h2><div class="viewer" id="viewer"><video id="video" controls playsinline></video><div class="placeholder" id="placeholder"><div style="font-size:36px">▶</div><strong>Your composition preview</strong><div class="muted">Import a video to preview it here</div></div></div><div class="playrow"><button id="playBtn">▶ Play / Pause</button><button id="fitBtn">Fit preview</button><button id="clearBtn">Clear media</button></div></section>
+<section class="panel">
+  <h2>🎬 Cinematic Effects</h2>
+  <div class="inside">
+    <div class="effects-grid">
+      <div class="effect-control">
+        <label for="zoomEffect">Slow Zoom</label>
+        <input id="zoomEffect" type="range" min="100" max="125" value="100">
+      </div>
+      <div class="effect-control">
+        <label for="brightnessEffect">Brightness</label>
+        <input id="brightnessEffect" type="range" min="60" max="140" value="100">
+      </div>
+      <div class="effect-control">
+        <label for="contrastEffect">Contrast</label>
+        <input id="contrastEffect" type="range" min="60" max="160" value="100">
+      </div>
+      <div class="effect-control">
+        <label for="saturationEffect">Saturation</label>
+        <input id="saturationEffect" type="range" min="0" max="180" value="100">
+      </div>
+    </div>
+    <label class="effect-toggle">
+      <input id="grayscaleEffect" type="checkbox">
+      Black &amp; White Documentary Look
+    </label>
+    <p class="muted">Preview effects only — MP4 export is not connected to these controls yet.</p>
+  </div>
+</section>
+
+  <section class="center"><section class="panel"><h2>Composition preview <span class="status" id="previewStatus" style="float:right">READY</span></h2><div class="viewer" id="viewer"><video id="video" controls playsinline></video><div class="placeholder" id="placeholder"><div style="font-size:36px">▶</div><strong>Your composition preview</strong><div class="muted">Import a video to preview it here</div></div></div><div class="playrow"><button id="playBtn">▶ Play / Pause</button><button id="fitBtn">Fit preview</button><button id="clearBtn">Clear media</button></div></section>
 <section class="panel"><div class="inside timeline-head"><div><strong>Timeline</strong> <span class="muted">· prototype</span></div><div style="display:flex;gap:6px"><button id="addText">＋ Text layer</button><button id="addTrack">＋ Track</button></div></div><div id="tracks"><div class="track"><div class="trackname">VIDEO 1</div><div class="trackbody"><div class="clip">Import a clip to begin</div></div></div><div class="track"><div class="trackname">AUDIO 1</div><div class="trackbody"><div class="clip audio">Voice-over / music</div></div></div></div><div class="inside muted">This first build is a UI prototype. Timeline blocks are visual placeholders, not yet a full non-linear editor.</div></section></section>
 <section class="panel right"><h2>AI editing assistant</h2><div class="inside"><div><div class="muted" style="margin-bottom:8px">Describe the edit you want in plain language.</div><div class="chatlog" id="chatlog"><div class="bubble">Hi! I’m SHARMAX AI prototype. Tell me the style you want, for example: “Plan a cinematic documentary edit with subtitles, slow zooms and title cards.”</div></div><form class="chatform" id="chatForm"><textarea id="prompt" placeholder="Tell AI how to edit…"></textarea><button class="primary" type="submit">Send</button></form><div class="muted" style="margin-top:7px">Demo assistant: it creates an editing plan; online AI is not connected yet.</div></div><div style="margin-top:16px"><h2 style="padding:0 0 10px;border:0">Quick tools</h2><div class="tools"><button class="tool" data-prompt="Create a cinematic documentary edit plan with a strong opening, restrained transitions, and a clear ending.">🎬 Documentary</button><button class="tool" data-prompt="Create a subtitle workflow for the narration, with readable short lines and timing matched to speech.">CC Subtitles</button><button class="tool" data-prompt="Suggest subtle slow zooms and pans for still photographs without making movement distracting.">↗ Ken Burns zoom</button><button class="tool" data-prompt="Plan title cards for key dates, locations and names using a clean documentary style.">T Title cards</button></div></div><div class="note">Free-first plan: this prototype has no paid API and does not upload your media. Real automatic editing and export need to be built next.</div></div></section>
 </main><div class="bottom">SHARMAX STUDIO · Early prototype · Save your project files before closing this page.</div>
@@ -34,12 +102,32 @@ function sendPrompt(text){text=(text||'').trim();if(!text)return;addBubble(text,
 </script>
 
 <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
-      .catch(console.error);
+(() => {
+  const video = document.getElementById('video');
+  const viewer = document.getElementById('viewer');
+
+  const zoom = document.getElementById('zoomEffect');
+  const brightness = document.getElementById('brightnessEffect');
+  const contrast = document.getElementById('contrastEffect');
+  const saturation = document.getElementById('saturationEffect');
+  const grayscale = document.getElementById('grayscaleEffect');
+
+  function applyEffects() {
+    video.style.transform = `scale(${Number(zoom.value) / 100})`;
+    video.style.transformOrigin = 'center center';
+    video.style.filter =
+      `brightness(${brightness.value}%) contrast(${contrast.value}%) saturate(${saturation.value}%)` +
+      (grayscale.checked ? ' grayscale(1)' : '');
+
+    viewer.style.overflow = 'hidden';
+  }
+
+  [zoom, brightness, contrast, saturation, grayscale].forEach(control => {
+    control.addEventListener('input', applyEffects);
   });
-}
+
+  applyEffects();
+})();
 </script>
 
 </body>
