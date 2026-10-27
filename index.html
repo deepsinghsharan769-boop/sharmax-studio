@@ -4,7 +4,6 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090d16"><title>SHARMAX STUDIO</title>
 <style>
-```css
 /* SHARMAX STUDIO — Blue & Light Blue Theme */
 :root {
   color-scheme: dark;
@@ -53,7 +52,7 @@ input, textarea, select {
   color: #f0f8ff !important;
   border-color: #38bdf8 !important;
 }
-```
+
 
 * {
   box-sizing: border-box;
@@ -246,6 +245,12 @@ header {
   transform-origin: center center;
 }
 
+/* Cinematic overlay is a real preview layer and is also drawn during WebM export. */
+.viewer.blockbuster::before { content:""; position:absolute; z-index:2; left:0; right:0; top:0; height:100%; pointer-events:none; background:linear-gradient(to bottom,#000 0%,#000 8%,transparent 8%,transparent 92%,#000 92%,#000 100%); }
+.viewer.blockbuster::after { content:""; position:absolute; z-index:1; inset:0; pointer-events:none; background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.55) 100%); }
+.viewer.blockbuster #titleOverlay { letter-spacing:.12em; text-transform:uppercase; bottom:12%; }
+#titleOverlay { position:absolute; z-index:3; left:6%; right:6%; bottom:9%; text-align:center; color:#fff; font-size:clamp(18px,3vw,42px); font-weight:800; letter-spacing:.02em; line-height:1.15; text-shadow:0 3px 12px rgba(0,0,0,.95),0 1px 2px #000; pointer-events:none; white-space:pre-wrap; }
+#titleOverlay .subtitle { display:block; margin:0 auto; max-width:90%; font-size:clamp(12px,1.6vw,21px); font-weight:600; background:rgba(0,0,0,.58); padding:5px 10px; border-radius:4px; }
 .placeholder {
   position: absolute;
   inset: 0;
@@ -504,7 +509,7 @@ header {
     align-items: flex-start;
   }
 }
-```
+
 
 
 </style>
@@ -512,7 +517,7 @@ header {
 </head>
 
 <body>
-<header><div class="brand">SHARMAX <span>STUDIO</span></div><div style="display:flex;gap:8px;align-items:center"><span class="pill">MOBILE EDITOR PROTOTYPE</span><button id="saveProject">💾 Save project</button><button id="openProject">📂 Open saved</button><button id="newProject">＋ New project</button></div></header>
+<header><div class="brand">SHARMAX <span>STUDIO</span></div><div style="display:flex;gap:8px;align-items:center"><span class="pill">CHATMAX LOCAL EDITOR</span><button id="saveProject">💾 Save project</button><button id="openProject">📂 Open saved</button><button id="newProject">＋ New project</button></div></header>
 <main class="layout">
 <section class="panel left"><h2>Project media</h2><div class="inside"><label class="upload" for="mediaInput" style="display:block;cursor:pointer"><div style="font-size:26px">＋</div><strong>Import video / audio</strong><span class="muted">Choose a file from your device</span></label><input id="mediaInput" type="file" accept="video/*,audio/*,image/*" multiple hidden><div id="assets"><div class="asset muted">No media imported yet.</div></div><div class="note">Tip: use a short clip for testing on a low-memory phone or laptop.</div></div></section>
 <section class="panel">
@@ -540,13 +545,14 @@ header {
       <input id="grayscaleEffect" type="checkbox">
       Black &amp; White Documentary Look
     </label>
-    <p class="muted">Preview effects only — MP4 export is not connected to these controls yet.</p>
+    <p class="muted">Brightness, contrast, saturation and black-and-white filters can be rendered with Export video (WebM). Export currently renders the video preview and active title overlay to WebM. MP4, audio mixing, timed subtitles and full multitrack compositing are not connected yet.</p>
   </div>
 </section>
 
-  <section class="center"><section class="panel"><h2>Composition preview <span class="status" id="previewStatus" style="float:right">READY</span></h2><div class="viewer" id="viewer"><video id="video" controls playsinline></video><div class="placeholder" id="placeholder"><div style="font-size:36px">▶</div><strong>Your composition preview</strong><div class="muted">Import a video to preview it here</div></div></div><div class="playrow"><button id="playBtn">▶ Play / Pause</button><button id="fitBtn">Fit preview</button><button id="clearBtn">Clear media</button></div></section>
-<section class="panel"><div class="inside timeline-head"><div><strong>Timeline</strong> <span class="muted">· prototype</span></div><div style="display:flex;gap:6px"><button id="addText">＋ Text layer</button><button id="addTrack">＋ Track</button></div></div><div id="tracks"><div class="track"><div class="trackname">VIDEO 1</div><div class="trackbody"><div class="clip">Import a clip to begin</div></div></div><div class="track"><div class="trackname">AUDIO 1</div><div class="trackbody"><div class="clip audio">Voice-over / music</div></div></div></div><div class="inside muted">This first build is a UI prototype. Timeline blocks are visual placeholders, not yet a full non-linear editor.</div></section></section>
-<section class="panel right"><h2>AI editing assistant</h2><div class="inside"><div><div class="muted" style="margin-bottom:8px">Describe the edit you want in plain language.</div><div class="chatlog" id="chatlog"><div class="bubble">Hi! I’m SHARMAX AI prototype. Tell me the style you want, for example: “Plan a cinematic documentary edit with subtitles, slow zooms and title cards.”</div></div><form class="chatform" id="chatForm"><textarea id="prompt" placeholder="Tell AI how to edit…"></textarea><button class="primary" type="submit">Send</button></form><div class="muted" style="margin-top:7px">Demo assistant: it creates an editing plan; online AI is not connected yet.</div></div><div style="margin-top:16px"><h2 style="padding:0 0 10px;border:0">Quick tools</h2><div class="tools"><button class="tool" data-prompt="Create a cinematic documentary edit plan with a strong opening, restrained transitions, and a clear ending.">🎬 Documentary</button><button class="tool" data-prompt="Create a subtitle workflow for the narration, with readable short lines and timing matched to speech.">CC Subtitles</button><button class="tool" data-prompt="Suggest subtle slow zooms and pans for still photographs without making movement distracting.">↗ Ken Burns zoom</button><button class="tool" data-prompt="Plan title cards for key dates, locations and names using a clean documentary style.">T Title cards</button></div></div><div class="note">Free-first plan: this prototype has no paid API and does not upload your media. Real automatic editing and export need to be built next.</div></div></section>
+  <section class="center"><section class="panel"><h2>Composition preview <span class="status" id="previewStatus" style="float:right">READY</span></h2><div class="viewer" id="viewer"><video id="video" controls playsinline></video><div id="titleOverlay" aria-live="polite"></div><div class="placeholder" id="placeholder"><div style="font-size:36px">▶</div><strong>Your composition preview</strong><div class="muted">Import a video to preview it here</div></div></div><div class="playrow"><button id="playBtn">▶ Play / Pause</button><button id="fitBtn">Fit preview</button><button id="exportBtn" class="primary">Export video (WebM)</button><button id="clearBtn">Clear media</button></div>
+<div class="inside muted" id="exportStatus" aria-live="polite">Export records the video and supported preview filters in real time. Browser export is WebM, not MP4; timeline text/tracks are not composited yet.</div></section>
+<section class="panel"><div class="inside timeline-head"><div><strong>Timeline</strong> <span class="muted">· local editing prototype</span></div><div style="display:flex;gap:6px"><button id="addText">＋ Text layer</button><button id="addTrack">＋ Track</button></div></div><div id="tracks"><div class="track"><div class="trackname">VIDEO 1</div><div class="trackbody"><div class="clip">Import a clip to begin</div></div></div><div class="track"><div class="trackname">AUDIO 1</div><div class="trackbody"><div class="clip audio">Voice-over / music</div></div></div></div><div class="inside muted">Text overlay is included in WebM export. Full multitrack compositing and MP4 export are not connected yet.</div></section></section>
+<section class="panel right"><h2>AI editing assistant</h2><div class="inside"><div><div class="muted" style="margin-bottom:8px">Describe the edit you want in plain language.</div><div class="chatlog" id="chatlog"><div class="bubble">Hi! I’m SHARMAX AI prototype. Tell me the style you want, for example: “Plan a cinematic documentary edit with subtitles, slow zooms and title cards.”</div></div><form class="chatform" id="chatForm"><textarea id="prompt" placeholder="Tell AI how to edit…"></textarea><button class="primary" type="submit">Send</button></form><div class="muted" style="margin-top:7px">CHATMAX local command engine: applies supported edits directly. Online AI research/transcription is not connected.</div></div><div style="margin-top:16px"><h2 style="padding:0 0 10px;border:0">Quick tools</h2><div class="tools"><button class="tool" data-prompt="Create a cinematic documentary edit plan with a strong opening, restrained transitions, and a clear ending.">🎬 Documentary</button><button class="tool" data-prompt="Create a subtitle workflow for the narration, with readable short lines and timing matched to speech.">CC Subtitles</button><button class="tool" data-prompt="Suggest subtle slow zooms and pans for still photographs without making movement distracting.">↗ Ken Burns zoom</button><button class="tool" data-prompt="Plan title cards for key dates, locations and names using a clean documentary style.">T Title cards</button></div></div><div class="note">CHATMAX runs supported commands locally in this browser. It does not send media online. Automatic transcription, online asset research, and MP4 export require additional engines.</div></div></section>
 </main><div class="bottom">SHARMAX STUDIO · Early prototype · Save your project files before closing this page.</div>
 <script>
 const mediaInput=document.getElementById('mediaInput'),assets=document.getElementById('assets'),video=document.getElementById('video'),placeholder=document.getElementById('placeholder'),status=document.getElementById('previewStatus'),tracks=document.getElementById('tracks');let urls=[];function addBubble(text,who='ai'){const el=document.createElement('div');el.className='bubble '+(who==='user'?'user':'');el.textContent=text;document.getElementById('chatlog').appendChild(el);el.scrollIntoView({block:'nearest'});}
@@ -561,7 +567,80 @@ function currentMediaFiles(){return [...mediaInput.files].map(f=>({name:f.name,t
 document.getElementById('saveProject').onclick=async()=>{try{const existingName=prompt('Project name:', 'My SHARMAX Project');if(existingName===null)return;const name=existingName.trim()||'Untitled Project';const project={id:Date.now().toString(),name,createdAt:new Date().toISOString(),media:currentMediaFiles(),tracksHTML:tracks.innerHTML,chatHTML:document.getElementById('chatlog').innerHTML};await dbSaveProject(project);alert('Project saved in this browser! Open saved projects on this same browser/device.');}catch(err){console.error(err);alert('Project could not be saved. Browser storage may be full or unavailable. Try a smaller media file.');}};
 document.getElementById('openProject').onclick=async()=>{try{const list=await dbGetProjects();if(!list.length){alert('No saved projects found in this browser yet. Click Save project first.');return;}const choices=list.map((p,i)=>`${i+1}. ${p.name} (${new Date(p.createdAt).toLocaleString()})`).join('\n');const answer=prompt('Enter the number of the project to open:\n\n'+choices,'1');if(answer===null)return;const idx=Number(answer)-1;if(!Number.isInteger(idx)||idx<0||idx>=list.length){alert('Invalid project number.');return;}const project=await dbGetProject(list[idx].id);video.pause();urls.forEach(URL.revokeObjectURL);urls=[];assets.innerHTML='';video.removeAttribute('src');video.load();video.style.display='none';placeholder.style.display='block';let firstVideo=null;for(const item of (project.media||[])){const blob=item.blob;const url=URL.createObjectURL(blob);urls.push(url);const asset=document.createElement('div');asset.className='asset';asset.textContent='📄 '+item.name+' · '+(item.size/1024/1024).toFixed(1)+' MB';assets.appendChild(asset);if(item.type.startsWith('video/')&&!firstVideo)firstVideo={url,name:item.name};}if(firstVideo){video.src=firstVideo.url;video.style.display='block';placeholder.style.display='none';status.textContent='VIDEO LOADED';}else status.textContent='READY';tracks.innerHTML=project.tracksHTML||'';document.getElementById('chatlog').innerHTML=project.chatHTML||'';alert('Project opened: '+project.name);}catch(err){console.error(err);alert('Could not open saved project.');}};
 document.getElementById('playBtn').onclick=()=>{if(!video.src){alert('Please import a video first.');return}video.paused?video.play():video.pause()};document.getElementById('fitBtn').onclick=()=>{video.style.objectFit='contain';status.textContent='FIT PREVIEW'};document.getElementById('clearBtn').onclick=()=>{video.pause();video.removeAttribute('src');video.load();video.style.display='none';placeholder.style.display='block';assets.innerHTML='<div class="asset muted">No media imported yet.</div>';mediaInput.value='';urls.forEach(URL.revokeObjectURL);urls=[];status.textContent='READY'};
-function sendPrompt(text){text=(text||'').trim();if(!text)return;addBubble(text,'user');const plan='Editing plan (prototype):\n1. Keep the full narration and organize the edit from beginning to end.\n2. Break the narration into short scenes and match each scene with a relevant visual.\n3. Add restrained cinematic movement, titles and transitions where useful.\n4. Plan subtitles and music levels around the voice-over.\n5. Review the full timeline before export.\n\nThis prototype cannot apply these changes automatically yet. The next development step is to connect editing operations to the timeline and rendering engine.';setTimeout(()=>addBubble(plan),250)}document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();sendPrompt(document.getElementById('prompt').value);document.getElementById('prompt').value=''});document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>sendPrompt(b.dataset.prompt));document.getElementById('addText').onclick=()=>{const row=document.createElement('div');row.className='track';row.innerHTML='<div class="trackname">TEXT</div><div class="trackbody"><div class="clip" contenteditable="true">Double-click to edit title</div></div>';tracks.appendChild(row)};document.getElementById('addTrack').onclick=()=>{const row=document.createElement('div');row.className='track';row.innerHTML='<div class="trackname">NEW TRACK</div><div class="trackbody"><div class="clip" contenteditable="true">New layer</div></div>';tracks.appendChild(row)};document.getElementById('newProject').onclick=()=>{if(confirm('Start a new prototype project? This clears imported media and timeline tracks.')){document.getElementById('clearBtn').click();tracks.innerHTML='<div class="track"><div class="trackname">VIDEO 1</div><div class="trackbody"><div class="clip">Import a clip to begin</div></div></div><div class="track"><div class="trackname">AUDIO 1</div><div class="trackbody"><div class="clip audio">Voice-over / music</div></div></div>';document.getElementById('chatlog').innerHTML='';addBubble('New project ready. Import media to begin.')}};
+function sendPrompt(text){
+  text=(text||'').trim(); if(!text)return;
+  addBubble(text,'user');
+  const q=text.toLowerCase();
+  const el=id=>document.getElementById(id);
+  const fire=id=>el(id).dispatchEvent(new Event('input',{bubbles:true}));
+  const setEffect=(id,value)=>{el(id).value=value;fire(id)};
+  const setBW=on=>{el('grayscaleEffect').checked=on;fire('grayscaleEffect')};
+  const resetEffects=()=>{setEffect('zoomEffect',100);setEffect('brightnessEffect',100);setEffect('contrastEffect',100);setEffect('saturationEffect',100);setBW(false)};
+  const addText=(value='YOUR TITLE', subtitle=false)=>{
+    const row=document.createElement('div');row.className='track';
+    const name=document.createElement('div');name.className='trackname';name.textContent=subtitle?'SUBTITLE':'TEXT';
+    const body=document.createElement('div');body.className='trackbody';
+    const clip=document.createElement('div');clip.className='clip';clip.contentEditable='true';clip.spellcheck=true;clip.textContent=value;clip.title='Click and edit this text';
+    clip.addEventListener('input',()=>{if(!subtitle)el('titleOverlay').textContent=clip.textContent;});
+    body.appendChild(clip);row.append(name,body);tracks.appendChild(row);
+    if(subtitle){el('titleOverlay').innerHTML='';const span=document.createElement('span');span.className='subtitle';span.textContent=value;el('titleOverlay').appendChild(span)}else el('titleOverlay').textContent=value;
+  };
+  const addTrack=()=>{const row=document.createElement('div');row.className='track';const name=document.createElement('div');name.className='trackname';name.textContent='NEW TRACK';const body=document.createElement('div');body.className='trackbody';const clip=document.createElement('div');clip.className='clip';clip.contentEditable='true';clip.textContent='New editable layer';body.appendChild(clip);row.append(name,body);tracks.appendChild(row)};
+  let reply='';
+  const titleMatch=text.match(/(?:title|text|heading)\s*[:\-]\s*["“]?(.+?)["”]?$/i);
+  const subtitleMatch=text.match(/(?:subtitle|caption)\s*[:\-]\s*["“]?(.+?)["”]?$/i);
+  if(/\b(help|what can you do|commands|madad)\b/.test(q)){
+    reply='CHATMAX commands you can try: “cinematic look”, “blockbuster look”, “black and white”, “warm colors”, “vintage look”, “brighten video”, “darken video”, “high contrast”, “saturate colors”, “cinematic zoom”, “blockbuster look”, “reset effects”, “add title: THE UNTOLD STORY”, “add subtitle: Chapter One”, “add text layer”, “add track”, “play”, “pause”, “save project”, or “clear media”. These commands change the local editor. Automatic speech transcription, web research, AI asset generation and MP4 export are not connected.';
+  } else if(titleMatch && /\b(add|create|insert|show|make|title|text|heading)\b/.test(q)){
+    addText(titleMatch[1].trim());reply='Title added to the timeline and displayed over the preview. Edit its text directly in the TEXT clip.';
+  } else if(subtitleMatch){
+    addText(subtitleMatch[1].trim(),true);reply='Subtitle/caption added to the preview and timeline. Timing is not automatic yet; this is a single overlay, not speech-synced captions.';
+  } else if(/\b(add|create|insert|make)\b.*\b(text|title|heading|subtitle|caption)\b|\b(text|title)\s+layer\b/.test(q)){
+    addText('YOUR TITLE');reply='Text layer added. The title is now visible over the preview; edit the TEXT clip in the timeline to change it.';
+  } else if(/\b(add|create|insert|make)\b.*\b(track|layer)\b/.test(q)){
+    addTrack();reply='New editable track added to the timeline.';
+  } else if(/blockbuster|hollywood|netflix|movie look|film look|cinematic trailer/.test(q)){
+    setBW(false);setEffect('zoomEffect',108);setEffect('brightnessEffect',96);setEffect('contrastEffect',122);setEffect('saturationEffect',112);el('viewer').classList.add('blockbuster');reply='Blockbuster preview preset applied: subtle zoom, stronger contrast, richer color, letterbox bars and vignette. These supported visual effects are included in WebM export. This is a cinematic preset, not a full Hollywood VFX engine.';
+  } else if(/black\s*and\s*white|grayscale|greyscale|monochrome|b&w/.test(q)){
+    setBW(true);reply='Applied black-and-white to the preview. This filter is included in WebM export.';
+  } else if(/\bwarm\b|golden hour|warm color/.test(q)){
+    setBW(false);setEffect('brightnessEffect',106);setEffect('contrastEffect',108);setEffect('saturationEffect',118);reply='Applied a warm, richer preview grade using brightness, contrast and saturation controls.';
+  } else if(/vintage|retro|old film/.test(q)){
+    setBW(false);setEffect('brightnessEffect',94);setEffect('contrastEffect',112);setEffect('saturationEffect',72);reply='Applied a muted vintage-style grade. A true film-grain overlay is not available yet.';
+  } else if(/brighten|brighter|increase brightness|lighten video|bright kar|brightness badha|roshan kar/.test(q)){
+    setEffect('brightnessEffect',120);reply='Brightness increased. The active preview filter is included in WebM export.';
+  } else if(/darken|darker|lower brightness|dark kar|brightness kam|andhera kar/.test(q)){
+    setEffect('brightnessEffect',82);reply='Brightness lowered. The active preview filter is included in WebM export.';
+  } else if(/high contrast|increase contrast|contrast/.test(q)){
+    setEffect('contrastEffect',130);reply='Contrast increased.';
+  } else if(/saturat|vivid color|vibrant color|color pop|rang tez/.test(q)){
+    setEffect('saturationEffect',145);setBW(false);reply='Color saturation increased.';
+  } else if(/\b(blur|soft focus)\b/.test(q)){
+    video.style.filter+=' blur(2px)';reply='A light blur was added to the preview only. Blur is not yet included in export; use Reset effects to remove it.';
+  } else if(/\b(reset|remove|disable|clear)\b.*\b(effect|filter|zoom|look)\b|effects reset|effect reset|reset kar/.test(q)){
+    resetEffects();video.style.filter='';el('viewer').classList.remove('blockbuster');reply='Effects reset to defaults.';
+  } else if(/cinematic|documentary|slow zoom|ken burns|zoom in|zoom effect|cinematic look|zoom laga|cinematic bana/.test(q)){
+    setBW(/black\s*and\s*white/.test(q));setEffect('zoomEffect',/zoom|ken burns/.test(q)?112:106);setEffect('contrastEffect',108);reply='Applied a subtle cinematic zoom and contrast grade. The supported zoom/filter are rendered in WebM export.';
+  } else if(/\b(play|start playback)\b/.test(q)){
+    if(video.src){video.play().catch(()=>{});reply='Playback started.'}else reply='Import a video first, then ask me to play it.';
+  } else if(/\b(pause|stop playback)\b/.test(q)){
+    video.pause();reply='Playback paused.';
+  } else if(/\b(save|save project)\b/.test(q)){
+    el('saveProject').click();reply='Opened the Save Project dialog. Follow the browser prompt to save this project locally.';
+  } else if(/\b(clear|remove|delete)\b.*\b(media|video|assets?)\b/.test(q)){
+    el('clearBtn').click();reply='Imported media cleared from the current editor. Saved projects are not deleted.';
+  } else if(/\bexport\b/.test(q)){
+    reply='Use the Export video (WebM) button under the preview. Export runs in real time, so a 13-minute video may take about 13 minutes or longer. MP4 export and audio mixing are not connected.';
+  } else if(/\btrim|split|cut clip|divide clip\b/.test(q)){
+    reply='Clip trimming and splitting are not implemented in this build yet, so I have not changed your timeline. Those need a real clip model and timeline controls.';
+  } else if(/transcrib|auto subtitle|speech to text|voice.?over/.test(q)){
+    reply='Automatic transcription and speech-synced subtitles need a speech-recognition engine, which is not connected. I can add a manual subtitle overlay with “add subtitle: your words”.';
+  } else {
+    reply='I did not change anything because I could not match that request to a supported local command. Try “help” to see commands I can actually execute. Online AI, web research, automatic scene detection, transcription and MP4 export are not connected.';
+  }
+  addBubble(reply);
+}
+document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();sendPrompt(document.getElementById('prompt').value);document.getElementById('prompt').value=''});document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>sendPrompt(b.dataset.prompt));document.getElementById('addText').onclick=()=>{const row=document.createElement('div');row.className='track';const name=document.createElement('div');name.className='trackname';name.textContent='TEXT';const body=document.createElement('div');body.className='trackbody';const clip=document.createElement('div');clip.className='clip';clip.contentEditable='true';clip.textContent='YOUR TITLE';clip.addEventListener('input',()=>document.getElementById('titleOverlay').textContent=clip.textContent);body.appendChild(clip);row.append(name,body);tracks.appendChild(row);document.getElementById('titleOverlay').textContent=clip.textContent};document.getElementById('addTrack').onclick=()=>{const row=document.createElement('div');row.className='track';row.innerHTML='<div class="trackname">NEW TRACK</div><div class="trackbody"><div class="clip" contenteditable="true">New layer</div></div>';tracks.appendChild(row)};document.getElementById('newProject').onclick=()=>{if(confirm('Start a new prototype project? This clears imported media and timeline tracks.')){document.getElementById('clearBtn').click();tracks.innerHTML='<div class="track"><div class="trackname">VIDEO 1</div><div class="trackbody"><div class="clip">Import a clip to begin</div></div></div><div class="track"><div class="trackname">AUDIO 1</div><div class="trackbody"><div class="clip audio">Voice-over / music</div></div></div>';document.getElementById('chatlog').innerHTML='';addBubble('New project ready. Import media to begin.')}};
 </script>
 
 <script>
@@ -590,6 +669,134 @@ function sendPrompt(text){text=(text||'').trim();if(!text)return;addBubble(text,
   });
 
   applyEffects();
+})();
+</script>
+
+
+<script>
+(() => {
+  const video = document.getElementById('video');
+  const button = document.getElementById('exportBtn');
+  const status = document.getElementById('exportStatus');
+  const get = id => document.getElementById(id);
+  let exporting = false;
+
+  function mimeType() {
+    const choices = ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];
+    return choices.find(t => window.MediaRecorder && MediaRecorder.isTypeSupported(t)) || '';
+  }
+
+  button.addEventListener('click', async () => {
+    if (exporting) return;
+    if (!video.src || !video.videoWidth || !video.duration || !Number.isFinite(video.duration)) {
+      status.textContent = 'Import a video and wait until it has loaded before exporting.';
+      return;
+    }
+    if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) {
+      status.textContent = 'This browser does not support in-browser recording. Try the latest Chrome or Edge.';
+      return;
+    }
+    const type = mimeType();
+    if (!type) {
+      status.textContent = 'WebM recording is not supported by this browser.';
+      return;
+    }
+
+    exporting = true;
+    button.disabled = true;
+    const previousTime = video.currentTime;
+    const wasPaused = video.paused;
+    const width = Math.min(video.videoWidth, 1280);
+    const height = Math.max(2, Math.round(width * video.videoHeight / video.videoWidth / 2) * 2);
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d', { alpha: false });
+    const canvasStream = canvas.captureStream(24);
+    let sourceStream = null;
+    let recorder = null;
+    let animation = 0;
+    const chunks = [];
+    const startTime = performance.now();
+
+    const draw = () => {
+      if (!exporting) return;
+      const zoom = Number(get('zoomEffect').value) / 100;
+      const filter = `brightness(${get('brightnessEffect').value}%) contrast(${get('contrastEffect').value}%) saturate(${get('saturationEffect').value}%)` +
+        (get('grayscaleEffect').checked ? ' grayscale(1)' : '');
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, width, height);
+      ctx.save();
+      ctx.filter = filter;
+      const scale = Math.max(width / video.videoWidth, height / video.videoHeight) * zoom;
+      const dw = video.videoWidth * scale;
+      const dh = video.videoHeight * scale;
+      ctx.drawImage(video, (width-dw)/2, (height-dh)/2, dw, dh);
+      ctx.restore();
+      if (get('viewer').classList.contains('blockbuster')) {
+        const barH = Math.round(height * 0.08);
+        ctx.fillStyle = '#000'; ctx.fillRect(0, 0, width, barH); ctx.fillRect(0, height - barH, width, barH);
+        const vg = ctx.createRadialGradient(width/2,height/2,Math.min(width,height)*0.22,width/2,height/2,Math.max(width,height)*0.72);
+        vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,0.48)');
+        ctx.fillStyle=vg; ctx.fillRect(0,0,width,height);
+      }
+      const titleText = get('titleOverlay').innerText.trim();
+      if (titleText) { ctx.save(); const lines=titleText.split('\n').slice(0,3); const fontSize=Math.max(22,Math.round(width*0.045)); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font=`700 ${fontSize}px Arial, sans-serif`; ctx.fillStyle='#ffffff'; ctx.shadowColor='rgba(0,0,0,.95)'; ctx.shadowBlur=8; ctx.shadowOffsetY=2; const lineHeight=fontSize*1.2; lines.forEach((line,i)=>ctx.fillText(line,width/2,height*0.84+(i-(lines.length-1)/2)*lineHeight,width*0.88)); ctx.restore(); }
+      const elapsed = Math.max(0, video.currentTime);
+      status.textContent = `Recording WebM… ${Math.floor(elapsed)}s / ${Math.floor(video.duration)}s. Keep this tab open.`;
+      animation = requestAnimationFrame(draw);
+    };
+
+    try {
+      video.pause();
+      video.currentTime = 0;
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => reject(new Error('Video seek timed out.')), 10000);
+        video.addEventListener('seeked', () => { clearTimeout(timeout); resolve(); }, { once: true });
+        video.addEventListener('error', () => { clearTimeout(timeout); reject(new Error('Could not read the video.')); }, { once: true });
+      });
+      draw();
+      if (typeof video.captureStream === 'function') sourceStream = video.captureStream();
+      else if (typeof video.mozCaptureStream === 'function') sourceStream = video.mozCaptureStream();
+      if (sourceStream) sourceStream.getAudioTracks().forEach(track => canvasStream.addTrack(track));
+      const stream = new MediaStream([...canvasStream.getVideoTracks(), ...canvasStream.getAudioTracks()]);
+      recorder = new MediaRecorder(stream, { mimeType: type, videoBitsPerSecond: 2500000 });
+      recorder.ondataavailable = event => { if (event.data && event.data.size) chunks.push(event.data); };
+      const finished = new Promise((resolve, reject) => {
+        recorder.onstop = resolve;
+        recorder.onerror = () => reject(new Error('Recording failed. Try a shorter or smaller video.'));
+      });
+      recorder.start(1000);
+      await video.play();
+      await new Promise((resolve, reject) => {
+        video.addEventListener('ended', resolve, { once: true });
+        video.addEventListener('error', () => reject(new Error('Video playback failed during export.')), { once: true });
+      });
+      exporting = false;
+      cancelAnimationFrame(animation);
+      recorder.stop();
+      await finished;
+      stream.getTracks().forEach(track => track.stop());
+      const blob = new Blob(chunks, { type });
+      if (!blob.size) throw new Error('Export produced an empty file.');
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (video.currentSrc.split('/').pop().split('?')[0] || 'sharmax-video').replace(/\.[^.]+$/, '') + '-edited.webm';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      status.textContent = `Export complete: ${(blob.size/1024/1024).toFixed(1)} MB WebM. MP4 conversion is not built in yet.`;
+    } catch (err) {
+      exporting = false;
+      cancelAnimationFrame(animation);
+      if (recorder && recorder.state !== 'inactive') { try { recorder.stop(); } catch (_) {} }
+      status.textContent = 'Export stopped: ' + (err.message || 'unknown error') + ' Your original video is unchanged.';
+    } finally {
+      button.disabled = false;
+      try { video.pause(); video.currentTime = Math.min(previousTime, video.duration || 0); } catch (_) {}
+      if (!wasPaused && !video.ended) { /* Leave paused after export to avoid unexpected playback. */ }
+    }
+  });
 })();
 </script>
 
