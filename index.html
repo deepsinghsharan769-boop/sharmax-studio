@@ -636,8 +636,35 @@ function sendPrompt(text){
   } else if(/transcrib|auto subtitle|speech to text|voice.?over/.test(q)){
     reply='Automatic transcription and speech-synced subtitles need a speech-recognition engine, which is not connected. I can add a manual subtitle overlay with “add subtitle: your words”.';
   } else {
-    reply='I did not change anything because I could not match that request to a supported local command. Try “help” to see commands I can actually execute. Online AI, web research, automatic scene detection, transcription and MP4 export are not connected.';
+    const thinkingBubble = addBubble('CHATMAX is thinking...', 'ai');
+
+    fetch('https://sharmax-studio.onrender.com/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message: text })
+    })
+      .then(async response => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'AI request failed.');
+        }
+
+        return data.reply;
+      })
+      .then(answer => {
+        thinkingBubble.textContent = answer || 'No response received from AI.';
+      })
+      .catch(error => {
+        thinkingBubble.textContent =
+          'AI connection error: ' + error.message;
+      });
+
+    return;
   }
+
   addBubble(reply);
 }
 document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();sendPrompt(document.getElementById('prompt').value);document.getElementById('prompt').value=''});document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>sendPrompt(b.dataset.prompt));document.getElementById('addText').onclick=()=>{const row=document.createElement('div');row.className='track';const name=document.createElement('div');name.className='trackname';name.textContent='TEXT';const body=document.createElement('div');body.className='trackbody';const clip=document.createElement('div');clip.className='clip';clip.contentEditable='true';clip.textContent='YOUR TITLE';clip.addEventListener('input',()=>document.getElementById('titleOverlay').textContent=clip.textContent);body.appendChild(clip);row.append(name,body);tracks.appendChild(row);document.getElementById('titleOverlay').textContent=clip.textContent};document.getElementById('addTrack').onclick=()=>{const row=document.createElement('div');row.className='track';row.innerHTML='<div class="trackname">NEW TRACK</div><div class="trackbody"><div class="clip" contenteditable="true">New layer</div></div>';tracks.appendChild(row)};document.getElementById('newProject').onclick=()=>{if(confirm('Start a new prototype project? This clears imported media and timeline tracks.')){document.getElementById('clearBtn').click();tracks.innerHTML='<div class="track"><div class="trackname">VIDEO 1</div><div class="trackbody"><div class="clip">Import a clip to begin</div></div></div><div class="track"><div class="trackname">AUDIO 1</div><div class="trackbody"><div class="clip audio">Voice-over / music</div></div></div>';document.getElementById('chatlog').innerHTML='';addBubble('New project ready. Import media to begin.')}};
