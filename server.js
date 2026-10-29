@@ -35,7 +35,8 @@ app.post("/api/chat", async (req, res) => {
     }
 
     const client = new OpenAI({ apiKey });
-
+console.log("OpenAI SDK type:", typeof OpenAI);
+console.log("Responses API type:", typeof client.responses.create);
     const response = await client.responses.create({
       model: "gpt-4.1-mini",
       instructions:
